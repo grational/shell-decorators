@@ -1,0 +1,3 @@
+= shell-decorators
+
+A 'gigawatt' powered project.
