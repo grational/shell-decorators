@@ -24,22 +24,25 @@ plugins {
 
 // [general] configuration
 project.ext {
-	sourceCompatibility = '1.8'
-	targetCompatibility = "$sourceCompatibility"
 	groovyVersion       = '2.4.7'
 	gradleVersion       = '3.2.1'
 	spockVersion        = '1.0-groovy-2.4'
 	codenarcVersion     = '0.24.1'
 	slf4jVersion        = '1.7.21'
-	log4jVersion        = '2.6.2'
 }
 
 project.with {
 	//project.name is set in the settings.gradle with rootProject.name
 	group                 "it.italiaonline.rnd"
-	version               "0.1.0" // (remove -SNAPSHOT for releases)
+	version               "0.2.0" // (remove -SNAPSHOT for releases)
 	description           "Tools to execute command line tools inside jvm classes"
 	wrapper.gradleVersion "$gradleVersion"
+}
+
+// target java 7
+allprojects {
+	sourceCompatibility = 7
+	targetCompatibility = 7
 }
 
 repositories {
@@ -50,10 +53,8 @@ repositories {
 	try {
 		if ( new URL(nexusUrl).getText(connectTimeout: 5.seconds).contains('Sonatype Nexus') ) {
 			logger.warn("Adding maven repositories, nexus <$nexusUrl>")
-			maven {
-				url "${nexusUrl}/content/repositories/snapshots"
-				url "${nexusUrl}/content/repositories/releases"
-			}
+			maven { url "${nexusUrl}/content/repositories/snapshots" }
+			maven { url "${nexusUrl}/content/repositories/releases"  }
 		} else {
 			logger.warn("maven repos skipped cause <$nexusUrl> is not reachable!")
 		}
@@ -69,9 +70,6 @@ dependencies {
 
 	// Slf4j dependencies with log4j2 backend
 	compile "org.slf4j:slf4j-api:$slf4jVersion"
-	compile "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
-	compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
-	compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
 
 	// We use the awesome Spock testing and specification framework
 	testCompile "org.spockframework:spock-core:$spockVersion"
