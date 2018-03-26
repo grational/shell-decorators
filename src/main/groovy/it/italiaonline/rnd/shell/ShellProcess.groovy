@@ -5,5 +5,5 @@ package it.italiaonline.rnd.shell
  * a shell command and return its output
  */
 interface ShellProcess {
-  String output()
+	String output()
 }
